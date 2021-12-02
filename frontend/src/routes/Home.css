@@ -1,8 +1,9 @@
 
 .homeContainer {
     height: 100vh;
-    width: 80vw;
+    width: 100vw;
     justify-content: center;
+    padding: 10px;
   }
   
   .filterArea {
@@ -18,12 +19,7 @@
     max-width: 40vh;
   
   }
-  
-  /* Set the the flex and display for the main area */
-  .homeContainer {
-      display: flex;
-      flex: 1;
-  }
+
   
   /* .productArea {
     display: flex;

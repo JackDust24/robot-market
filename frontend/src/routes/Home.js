@@ -1,19 +1,8 @@
 import "./Home.css";
 
-import {
-  Button,
-  Card,
-  CardDeck,
-  Col,
-  Container,
-  Form,
-  Row,
-  Spinner,
-} from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 
 import Cart from "../components/Cart";
-import RobotItem from "../components/RobotItem";
 import RobotList from "../components/RobotList";
 import { addUniqueIdToTheData } from "../utils/datahelper";
 import { callAPI } from "../api/helper";
@@ -53,13 +42,6 @@ export default function Home() {
   /* Event Handlers */
   // Robot being added to cart
   const handleAddToCart = (robot) => {
-    // Check Cart if more than 5 types exist
-    if (cart.length > 4) {
-      alert(
-        "You have reached the maximum number of Robots allowed for adding to the cart"
-      );
-      return;
-    }
     // Find if selected Robot is in the Cart list and the selected Robot from the Robot list
     const checkCartForItem = cart.find(
       (robotCart) => robotCart.id === robot.id
@@ -82,7 +64,15 @@ export default function Home() {
         )
       );
     } else {
-      setCart([...cart, { ...robot, stock: 1 }]);
+      // Check Cart to see if more than 5 types exist
+      if (cart.length > 4) {
+        alert(
+          "You have reached the maximum number of Robots allowed for adding to the cart"
+        );
+        return;
+      } else {
+        setCart([...cart, { ...robot, stock: 1 }]);
+      }
     }
     // Remove one item of stock from the robot listing
     setRobotData(
@@ -105,8 +95,8 @@ export default function Home() {
     const checkRobotDataForItem = robotData.find(
       (robotItem) => robotItem.id === robot.id
     );
-     // We can check if the item being removed is 1, then we can remove the robot from the cart altogether.
-     // If not, then we just decrease the stock count by one.
+    // We can check if the item being removed is 1, then we can remove the robot from the cart altogether.
+    // If not, then we just decrease the stock count by one.
     if (checkCartForItem.stock === 1) {
       // Use filter to remove it from the cart
       setCart(cart.filter((robotCart) => robotCart.id !== robot.id));
@@ -118,25 +108,25 @@ export default function Home() {
             : robotCart
         )
       );
-      // We then increase the robot count by one in the robot list.
-      setRobotData(
-        robotData.map((robotItem) =>
-          robotItem.id === robot.id
-            ? {
-                ...checkRobotDataForItem,
-                stock: checkRobotDataForItem.stock + 1,
-              }
-            : robotItem
-        )
-      );
     }
+    // We then increase the robot count by one in the robot list.
+    setRobotData(
+      robotData.map((robotItem) =>
+        robotItem.id === robot.id
+          ? {
+              ...checkRobotDataForItem,
+              stock: checkRobotDataForItem.stock + 1,
+            }
+          : robotItem
+      )
+    );
   };
 
   return (
-    <div className="container">
+    <div className="homeContainer">
       <div className="row">
         {/*Filter Row*/}
-        <div className="col-sm-10">
+        <div className="col-sm-9">
           Filter by Material
           {/*Robots Column*/}
           <div className="productArea">
@@ -151,7 +141,7 @@ export default function Home() {
         </div>
 
         {/*Cart Column*/}
-        <div className="cartArea col-sm-2">
+        <div className="cartArea col-sm-3">
           <Cart
             cart={cart}
             handleAddToCart={handleAddToCart}

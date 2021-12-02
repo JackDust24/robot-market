@@ -20,10 +20,18 @@ export const addUniqueIdToTheData = async (data) => {
 const addUniqueIDToReturnedData = (jsonData) => {
     jsonData.data.map((obj, index) => {
       obj.id = index;
-    });
-  
+    }); 
     return jsonData;
 };
+
+// For Filter
+// const collectAllMaterials = (data) => {
+
+// }
+
+// const filterBymaterial = (material) => {
+
+// }
 
 // Add a unique ID to the data so that we can use this for rendering and selecting by ID.
 // const formatTheData = (data) => {

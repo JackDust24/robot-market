@@ -1,12 +1,7 @@
 import {
   Button,
   Card,
-  CardDeck,
   Col,
-  Container,
-  Form,
-  Row,
-  Spinner,
 } from "react-bootstrap";
 import { formatDate, formatPrice } from "./../utils/format";
 
@@ -52,12 +47,8 @@ const CardButtonStyle = {
   marginRight: `15%`,
 };
 
-const robotItem = (props) => {
+const RobotItem = (props) => {
   const { robot, handleAddToCart } = props;
-  const checkForFeedback = (robot) => {
-    const checkCount = handleAddToCart(robot);
-    console.log("Check return - ", checkCount);
-  };
 
   return (
     // <div className="col-sm-4">
@@ -101,7 +92,7 @@ const robotItem = (props) => {
           </Card.Body>
           <Card.Footer>
             <Button
-              onClick={() => checkForFeedback(robot)}
+              onClick={() => handleAddToCart(robot)}
               disabled={robot.stock <= 0}
               style={CardButtonStyle}
             >
@@ -114,4 +105,4 @@ const robotItem = (props) => {
   );
 };
 
-export default robotItem;
+export default RobotItem;
