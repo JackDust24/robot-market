@@ -1,8 +1,6 @@
 import * as React from "react";
 
-import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
-
-import About from "./routes/About";
+import Header from "./components/Header"
 import Home from "./routes/Home";
 
 /*
@@ -19,12 +17,12 @@ NTH - Nice to Have - will fit in if time permits
   // Button to add to cart  = done
   // Button disactivate if no items = done
   // Filter display
-  // Change state for when add to cart - To be decided
-  // Work out the state management
+  // Change state for when add to cart = done
+  // Work out the state management = done
 
 // Stage 2 - Cart
   // Display cart on the right
-  // Check if cart exists ? Check if robot exists ? Check if max robot exists
+  // Check if cart exists ? Check if robot exists ? Check if max robot exists = done
   // Remove one stock from product, add to cart
   // Increase, decrease for robot, add back to cart
   // Account total, price
@@ -41,10 +39,9 @@ NTH - Nice to Have - will fit in if time permits
 function App() {
   return (
     <div className="App">
-      <h1>Robot Market</h1>
-      {/*Add your code here*/}
-      <Router>
-      {/*TODO: Add CSS for these*/}
+      <Header />
+      <Home />
+      {/* <Router>
 
         <div className="App-body">
           <div className="App-menu">
@@ -63,7 +60,7 @@ function App() {
             <Route exact path="/about" element={<About />} />
           </Routes>
         </div>
-      </Router>
+      </Router> */}
     </div>
   );
 }

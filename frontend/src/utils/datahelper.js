@@ -8,7 +8,7 @@ import React from "react";
 
 // To meet our requirements we wish to do the following with the data:
 // 1. Add a unique ID to each record, 2. Format the price to THB and 3. Format the date.
-export const mutateAndFormatTheData = async (data) => {
+export const addUniqueIdToTheData = async (data) => {
     //TODO: Error Handling
     const dataWithUniqueId = addUniqueIDToReturnedData(data);
     return dataWithUniqueId;
