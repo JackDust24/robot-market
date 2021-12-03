@@ -11,7 +11,6 @@ import { formatPrice } from "./../utils/format";
 
 const CardStyle = {
     padding: `10px`,
-    // width: `100%`,
   };
 
 const ImageStyles = {

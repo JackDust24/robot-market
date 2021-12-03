@@ -6,7 +6,7 @@
     padding: 0.7rem;
     border-radius: 0.5rem;
   }
-a, a > h1  {
+  .header > h1  {
     color: cornsilk;
     text-decoration: none;
 }

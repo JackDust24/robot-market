@@ -1,8 +1,4 @@
-import {
-  Button,
-  Card,
-  Col,
-} from "react-bootstrap";
+import { Button, Card, Col } from "react-bootstrap";
 import { formatDate, formatPrice } from "./../utils/format";
 
 import NoImage from "../assets/images/noimage.png";
@@ -16,14 +12,12 @@ const ImageStyles = {
 };
 
 const CardBodyStyle = {
-  //   height: `30px`,
   width: `80%`,
   marginBottom: `5px`,
 };
 
 const CardBodyMaterialStyle = {
- fontSize: `0.9rem`,
-
+  fontSize: `0.9rem`,
   color: `blue`,
 };
 

@@ -8,11 +8,9 @@ export default function Cart(props) {
   const { cart, handleAddToCart, handleRemoveFromCart } = props;
   const numberOfRobots = countNumberOfRobots(cart);
   const totalPriceOfRobots = countTotalPrice(cart);
-  console.log("Number of robots - ", numberOfRobots);
-  console.log("Price of robots - ", totalPriceOfRobots);
 
   return (
-    <div className="cart-container" style={{ border: "solid", marginTop: `40px`, width: `100%` }}>
+    <div className="cart-container" style={{ border: "solid", marginTop: `40px`, padding: `5px` }}>
       <h2 className="text-center">Cart</h2>
       {cart.length === 0 && <div>Cart is empty</div>}
       {cart.map((robot) => (
@@ -25,20 +23,19 @@ export default function Cart(props) {
       ))}
       {cart.length !== 0 && (
         <>
-          <hr></hr>
-          <div className="row" style={{paddingLeft: `10px`}}>
-            <div className="col">Total Robots: </div>
-            <div className="col text-right"><strong>{numberOfRobots}</strong></div>
+        <hr />
+          <div className="row" style={{paddingLeft: `5px`}}>
+            <div className="col" style={{fontSize: `0.8rem`}}>Total Robots: </div>
+            <div className="col text-right" style={{fontSize: `0.8rem`}}><strong>{numberOfRobots}</strong></div>
           </div>
-          <div className="row" style={{paddingLeft: `10px`}}>
-            <div className="col">
+          <div className="row" style={{paddingLeft: `5px`}}>
+            <div className="col" style={{fontSize: `1.0rem`}}>
               <strong>{" "}Total Price:</strong>
             </div>
             <div className="col text-right">
               <strong>{totalPriceOfRobots}</strong>
             </div>
           </div>
-          <hr />
         </>
       )}
     </div>

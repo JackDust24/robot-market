@@ -16,8 +16,8 @@
   
   .cartArea {
     flex: 1;
-    max-width: 40vh;
-  
+    margin-top: 50px;
+    max-width: 20vw;
   }
 
   
@@ -63,4 +63,10 @@
     flex: 1;
     min-width: 30%;
     border: solid;
+  }
+
+  .material-search {
+    display: flex; 
+    flex-direction: row;
+    padding: 20px;
   }

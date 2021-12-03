@@ -1,18 +1,24 @@
 import "./Home.css";
 
 import React, { useEffect, useState } from "react";
+import {
+  addUniqueIdToTheData,
+  collectAllMaterials,
+  filterByMaterial,
+} from "../utils/datahelper";
 
+import { Button } from "react-bootstrap";
 import Cart from "../components/Cart";
+import MaterialSearch from "../components/MaterialSearch";
 import RobotList from "../components/RobotList";
-import { addUniqueIdToTheData } from "../utils/datahelper";
 import { callAPI } from "../api/helper";
 
 export default function Home() {
   const [robotData, setRobotData] = useState([]);
   const [fetchingAPIData, setFetchingAPIData] = useState(false);
   const [cart, setCart] = useState([]);
-
-  console.log("Home Page");
+  const [materials, setMaterials] = useState([]);
+  const [filteredRobots, setFilteredRobots] = useState([]);
 
   /* Life Cycle Methods */
   useEffect(() => {
@@ -22,7 +28,10 @@ export default function Home() {
       // Add UniqueID to the data
       const formattedData = await addUniqueIdToTheData(jsonObj);
       const data = formattedData.data;
+      // Retrieve the materials
+      const listOfMaterials = await collectAllMaterials(data);
       setRobotData(data);
+      setMaterials(listOfMaterials);
     })();
   }, []);
 
@@ -32,14 +41,8 @@ export default function Home() {
     setFetchingAPIData(false);
   }, [robotData]);
 
-  useEffect(() => {
-    // Once the robot data has been fetched we can set the loading to false and start
-    // populating the screen
-    console.log("Chech Cart ", cart);
-    console.log("Chech Robots ", robotData);
-  }, [cart]);
-
   /* Event Handlers */
+
   // Robot being added to cart
   const handleAddToCart = (robot) => {
     // Find if selected Robot is in the Cart list and the selected Robot from the Robot list
@@ -51,7 +54,6 @@ export default function Home() {
     );
     // Though unlikely to be called we will not add to cart if the stock is empty
     if (checkRobotDataForItem.stock === 0) {
-      console.log("Ran out of stock");
       return;
     }
     // If robot is in the cart then increase the stock by one, otherwise creeate a new robot in cart
@@ -122,22 +124,46 @@ export default function Home() {
     );
   };
 
+  // Handle the filtering of robots by material
+  const handleSelectMaterial = async (selectedMaterial) => {
+    if (selectedMaterial) {
+      const getFilteredRobots = filterByMaterial(robotData, selectedMaterial);
+      setFilteredRobots(getFilteredRobots);
+    }
+  };
+
+  // It filter by material is reset
+  const handleMaterialReset = (isReset) => {
+    if (isReset) {
+      setFilteredRobots([]);
+    }
+  };
+
   return (
     <div className="homeContainer">
       <div className="row">
         {/*Filter Row*/}
         <div className="col-sm-9">
-          Filter by Material
-          {/*Robots Column*/}
-          <div className="productArea">
-            {fetchingAPIData && <p>Fetching data ...</p>}
-            {!fetchingAPIData && robotData.length > 0 && (
-              <RobotList
-                robotData={robotData}
-                handleAddToCart={handleAddToCart}
+          {fetchingAPIData && <p>Fetching data ...</p>}
+          {!fetchingAPIData && robotData.length > 0 && materials.length > 0 && (
+            <React.Fragment>
+              <MaterialSearch
+                materials={materials}
+                handleSelectMaterial={handleSelectMaterial}
+                handleMaterialReset={handleMaterialReset}
               />
-            )}
-          </div>
+
+              {/*Robots Column*/}
+              <div className="productArea">
+                <RobotList
+                  robotData={
+                    filteredRobots.length > 0 ? filteredRobots : robotData
+                  }
+                  handleAddToCart={handleAddToCart}
+                />
+              </div>
+            </React.Fragment>
+          )}
         </div>
 
         {/*Cart Column*/}

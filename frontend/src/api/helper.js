@@ -9,8 +9,6 @@ export const callAPI = async () => {
   return axios
     .get(`${apiUrl}${urlPath}`)
     .then(({ data }) => {
-      console.log("Data from API - ", data);
-
       return data;
     })
     .catch((err) => {
