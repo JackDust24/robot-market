@@ -16,21 +16,21 @@ NTH - Nice to Have - will fit in if time permits
   // Card display  = done
   // Button to add to cart  = done
   // Button disactivate if no items = done
-  // Filter display
+  // Filter display = done
   // Change state for when add to cart = done
   // Work out the state management = done
 
 // Stage 2 - Cart
-  // Display cart on the right
+  // Display cart on the right = done
   // Check if cart exists ? Check if robot exists ? Check if max robot exists = done
-  // Remove one stock from product, add to cart
-  // Increase, decrease for robot, add back to cart
-  // Account total, price
+  // Remove one stock from product, add to cart = done
+  // Increase, decrease for robot, add back to cart = done
+  // Account total, price = done
 
 // Stage 3 - Other
-  // Pagination of products
-  // Tidy display of products
-  // Nav bar
+  // Pagination of products = Nice to have
+  // Tidy display of products = done
+  // Header = done
   // Test
   // Optimise images
 

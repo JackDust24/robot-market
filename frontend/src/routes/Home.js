@@ -13,6 +13,8 @@ import MaterialSearch from "../components/MaterialSearch";
 import RobotList from "../components/RobotList";
 import { callAPI } from "../api/helper";
 
+const robotsPerPage = 15;
+
 export default function Home() {
   const [robotData, setRobotData] = useState([]);
   const [fetchingAPIData, setFetchingAPIData] = useState(false);
@@ -28,6 +30,7 @@ export default function Home() {
       // Add UniqueID to the data
       const formattedData = await addUniqueIdToTheData(jsonObj);
       const data = formattedData.data;
+      console.log("data= ", data)
       // Retrieve the materials
       const listOfMaterials = await collectAllMaterials(data);
       setRobotData(data);
@@ -41,10 +44,10 @@ export default function Home() {
     setFetchingAPIData(false);
   }, [robotData]);
 
-  /* Event Handlers */
 
   // Robot being added to cart
   const handleAddToCart = (robot) => {
+    console.log("Robot pressed = ", robot)
     // Find if selected Robot is in the Cart list and the selected Robot from the Robot list
     const checkCartForItem = cart.find(
       (robotCart) => robotCart.id === robot.id
@@ -52,10 +55,17 @@ export default function Home() {
     const checkRobotDataForItem = robotData.find(
       (robotItem) => robotItem.id === robot.id
     );
+    const checkFilteredDataForItem = filteredRobots.find(
+      (robotItem) => robotItem.id === robot.id
+    );
     // Though unlikely to be called we will not add to cart if the stock is empty
     if (checkRobotDataForItem.stock === 0) {
       return;
     }
+    console.log("Robot checkCartForItem = ", checkCartForItem)
+    console.log("Robot checkRobotDataForItem = ", checkRobotDataForItem)
+
+
     // If robot is in the cart then increase the stock by one, otherwise creeate a new robot in cart
     if (checkCartForItem) {
       setCart(
@@ -87,6 +97,19 @@ export default function Home() {
           : robotItem
       )
     );
+    // We also want to update if we have filtered robots.
+    if (checkFilteredDataForItem) {
+      setFilteredRobots(
+        filteredRobots.map((robotItem) =>
+          robotItem.id === robot.id
+            ? {
+                ...checkFilteredDataForItem,
+                stock: checkFilteredDataForItem.stock - 1,
+              }
+            : robotItem
+        )
+      );
+    }
   };
 
   const handleRemoveFromCart = (robot) => {
@@ -95,6 +118,9 @@ export default function Home() {
       (robotCart) => robotCart.id === robot.id
     );
     const checkRobotDataForItem = robotData.find(
+      (robotItem) => robotItem.id === robot.id
+    );
+    const checkFilteredDataForItem = filteredRobots.find(
       (robotItem) => robotItem.id === robot.id
     );
     // We can check if the item being removed is 1, then we can remove the robot from the cart altogether.
@@ -122,6 +148,19 @@ export default function Home() {
           : robotItem
       )
     );
+        // We also want to update if we have filtered robots.
+        if (checkFilteredDataForItem) {
+          setFilteredRobots(
+            filteredRobots.map((robotItem) =>
+              robotItem.id === robot.id
+                ? {
+                    ...checkFilteredDataForItem,
+                    stock: checkFilteredDataForItem.stock + 1,
+                  }
+                : robotItem
+            )
+          );
+        }
   };
 
   // Handle the filtering of robots by material

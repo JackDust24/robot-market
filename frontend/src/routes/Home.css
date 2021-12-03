@@ -31,13 +31,11 @@
     display: grid;
     grid: auto / auto auto auto;
     grid-gap: 5px;
-    background-color:#3743ec;
     padding: 5px;
   }
   
   .productArea > div {
-    background-color: rgba(255, 255, 255, 0.8);
-    text-align: center;
+    text-align: left;
     padding: 0px 0;
     font-size: 24px;
   }
