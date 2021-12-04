@@ -1,7 +1,8 @@
+import "../routes/Home.css";
+
 import { countNumberOfRobots, countTotalPrice } from "../utils/format";
 
 import CartItem from "./CartItem";
-// import "../App.css";
 import React from "react";
 
 export default function Cart(props) {

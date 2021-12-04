@@ -10,28 +10,32 @@ import React from "react";
 import { formatPrice } from "./../utils/format";
 
 const CardStyle = {
-    padding: `10px`,
+    padding: `5px`,
   };
 
 const ImageStyles = {
-    width: `60px`,
+    width: `50px`,
     objectFit: "fill",
-    height: `40px`,
+    height: `50px`,
     // padding: `10px`,
-    position: "absolute",
+    position: "relative",
+    margin: `5px`,
   };
   
   const CardBodyStyle = {
     //   height: `30px`,
-    width: `100%`,
+    width: `70%`,
     marginBottom: `5px`,
   };
   
   const CardBodyTitleStyle = {
-   fontSize: `0.9rem`,
+   fontSize: `0.8rem`,
     color: `blue`,
-    marginLeft: `90px`,
+    marginLeft: `60px`,
     marginBottom: `10px`,
+    position: "absolute",
+    top: `40px`,
+
   };
   
   const CardBodyPriceStyle = {
@@ -82,7 +86,6 @@ const ImageStyles = {
               src={robot.image ? `${robot.image}` : `${NoImage}`}
               alt={robot.name}
               style={ImageStyles}
-              className="card-deck-img"
             />
               <Card.Title style={CardBodyTitleStyle}>{robot.name}</Card.Title>
               <Card.Text

@@ -254,7 +254,7 @@ export default function Home() {
         </div>
 
         {/*Cart Column*/}
-        <div className="cartArea col-sm-3">
+        <div className="cartArea col-sm-6 col-md-3">
           <Cart
             cart={cart}
             handleAddToCart={handleAddToCart}
@@ -262,7 +262,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="row">
+      <div className="row" style={{margin: `20px`}}>
         {currentRobots.length > 0 && (
           <ReactPaginate
             nextLabel=">"
