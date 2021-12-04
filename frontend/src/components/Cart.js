@@ -10,7 +10,7 @@ export default function Cart(props) {
   const totalPriceOfRobots = countTotalPrice(cart);
 
   return (
-    <div className="cart-container" style={{ border: "solid", marginTop: `40px`, padding: `5px` }}>
+    <div className="cart-container" style={{ border: "solid", borderWidth: `thin`, marginTop: `40px`, padding: `5px` }}>
       <h2 className="text-center">Cart</h2>
       {cart.length === 0 && <div>Cart is empty</div>}
       {cart.map((robot) => (

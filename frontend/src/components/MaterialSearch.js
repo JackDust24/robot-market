@@ -34,7 +34,7 @@ const MaterialSearch = (props) => {
                     value={value}
                     size="lg"
                   >
-                    <option value="0">Choose...</option>
+                    <option value="0">Choose Material...</option>
                     {materials.map((material) => (
                       <option key={material} value={material}>
                         {material}

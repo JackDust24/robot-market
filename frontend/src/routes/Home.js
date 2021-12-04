@@ -10,6 +10,7 @@ import {
 import { Button } from "react-bootstrap";
 import Cart from "../components/Cart";
 import MaterialSearch from "../components/MaterialSearch";
+import ReactPaginate from "react-paginate";
 import RobotList from "../components/RobotList";
 import { callAPI } from "../api/helper";
 
@@ -22,6 +23,10 @@ export default function Home() {
   const [materials, setMaterials] = useState([]);
   const [filteredRobots, setFilteredRobots] = useState([]);
 
+  const [currentRobots, setCurrentRobots] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [robotOffset, setRobotOffset] = useState(0);
+
   /* Life Cycle Methods */
   useEffect(() => {
     setFetchingAPIData(true);
@@ -30,24 +35,39 @@ export default function Home() {
       // Add UniqueID to the data
       const formattedData = await addUniqueIdToTheData(jsonObj);
       const data = formattedData.data;
-      console.log("data= ", data)
       // Retrieve the materials
       const listOfMaterials = await collectAllMaterials(data);
       setRobotData(data);
       setMaterials(listOfMaterials);
+      // Set initial Current Robots per page
     })();
   }, []);
 
   useEffect(() => {
     // Once the robot data has been fetched we can set the loading to false and start
     // populating the screen
-    setFetchingAPIData(false);
+    if (robotData.length > 0) {
+      setFetchingAPIData(false);
+      setUpCurrentRobotsPerPage();
+    }
   }, [robotData]);
 
+  useEffect(() => {
+    // Only run this method if the robot data has already been populated:
+    if (robotData.length > 0) {
+      setUpCurrentRobotsPerPage();
+    }
+  }, [robotOffset, robotsPerPage]);
+
+  // We want to set up the current robots per page for pagination
+  const setUpCurrentRobotsPerPage = () => {
+    const endOffset = robotOffset + robotsPerPage;
+    setCurrentRobots(robotData.slice(robotOffset, endOffset));
+    setPageCount(Math.ceil(robotData.length / robotsPerPage));
+  };
 
   // Robot being added to cart
   const handleAddToCart = (robot) => {
-    console.log("Robot pressed = ", robot)
     // Find if selected Robot is in the Cart list and the selected Robot from the Robot list
     const checkCartForItem = cart.find(
       (robotCart) => robotCart.id === robot.id
@@ -62,9 +82,6 @@ export default function Home() {
     if (checkRobotDataForItem.stock === 0) {
       return;
     }
-    console.log("Robot checkCartForItem = ", checkCartForItem)
-    console.log("Robot checkRobotDataForItem = ", checkRobotDataForItem)
-
 
     // If robot is in the cart then increase the stock by one, otherwise creeate a new robot in cart
     if (checkCartForItem) {
@@ -89,6 +106,17 @@ export default function Home() {
     // Remove one item of stock from the robot listing
     setRobotData(
       robotData.map((robotItem) =>
+        robotItem.id === robot.id
+          ? {
+              ...checkRobotDataForItem,
+              stock: checkRobotDataForItem.stock - 1,
+            }
+          : robotItem
+      )
+    );
+    // This target would have to appear in this list too.
+    setCurrentRobots(
+      currentRobots.map((robotItem) =>
         robotItem.id === robot.id
           ? {
               ...checkRobotDataForItem,
@@ -148,19 +176,39 @@ export default function Home() {
           : robotItem
       )
     );
-        // We also want to update if we have filtered robots.
-        if (checkFilteredDataForItem) {
-          setFilteredRobots(
-            filteredRobots.map((robotItem) =>
-              robotItem.id === robot.id
-                ? {
-                    ...checkFilteredDataForItem,
-                    stock: checkFilteredDataForItem.stock + 1,
-                  }
-                : robotItem
-            )
-          );
-        }
+    // This target would have to appear in this list too.
+    setCurrentRobots(
+      currentRobots.map((robotItem) =>
+        robotItem.id === robot.id
+          ? {
+              ...checkRobotDataForItem,
+              stock: checkRobotDataForItem.stock + 1,
+            }
+          : robotItem
+      )
+    );
+    // We also want to update if we have filtered robots.
+    if (checkFilteredDataForItem) {
+      setFilteredRobots(
+        filteredRobots.map((robotItem) =>
+          robotItem.id === robot.id
+            ? {
+                ...checkFilteredDataForItem,
+                stock: checkFilteredDataForItem.stock + 1,
+              }
+            : robotItem
+        )
+      );
+    }
+  };
+
+  // Handle when user click to request another page.
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * robotsPerPage) % robotData.length;
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    setRobotOffset(newOffset);
   };
 
   // Handle the filtering of robots by material
@@ -196,7 +244,7 @@ export default function Home() {
               <div className="productArea">
                 <RobotList
                   robotData={
-                    filteredRobots.length > 0 ? filteredRobots : robotData
+                    filteredRobots.length > 0 ? filteredRobots : currentRobots
                   }
                   handleAddToCart={handleAddToCart}
                 />
@@ -213,6 +261,30 @@ export default function Home() {
             handleRemoveFromCart={handleRemoveFromCart}
           />
         </div>
+      </div>
+      <div className="row">
+        {currentRobots.length > 0 && (
+          <ReactPaginate
+            nextLabel=">"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={2}
+            pageCount={pageCount}
+            previousLabel="<"
+            pageClassName="page-robot"
+            pageLinkClassName="page-link"
+            previousClassName="page-robot"
+            previousLinkClassName="page-link"
+            nextClassName="page-robot"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-robot"
+            breakLinkClassName="page-link"
+            containerClassName="pagination"
+            activeClassName="active"
+            renderOnZeroPageCount={null}
+          />
+        )}
       </div>
     </div>
   );
