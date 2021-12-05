@@ -42,6 +42,11 @@ const MaterialSearch = (props) => {
             setValue(0);
             handleMaterialReset(true);
           }}
+          style={{
+            backgroundColor: `#13d558`,
+            color: `white`,
+            fontSize: `1.4rem`
+          }}
         >
           Reset
         </Button>
