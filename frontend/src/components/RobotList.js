@@ -1,5 +1,4 @@
-// import "../App.css";
-
+import PropTypes from 'prop-types';
 import React from "react";
 import RobotItem from "./RobotItem";
 
@@ -18,3 +17,8 @@ export default function RobotList(props) {
     </React.Fragment>
   );
 }
+
+RobotList.propTypes = {
+  robotData: PropTypes.array.isRequired,
+  handleAddToCart: PropTypes.func.isRequired,
+};

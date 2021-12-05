@@ -7,7 +7,6 @@ import {
   filterByMaterial,
 } from "../utils/datahelper";
 
-import { Button } from "react-bootstrap";
 import Cart from "../components/Cart";
 import MaterialSearch from "../components/MaterialSearch";
 import ReactPaginate from "react-paginate";
@@ -17,12 +16,15 @@ import { callAPI } from "../api/helper";
 const robotsPerPage = 15;
 
 export default function Home() {
+  // Initial robot data and for cart
   const [robotData, setRobotData] = useState([]);
-  const [fetchingAPIData, setFetchingAPIData] = useState(false);
   const [cart, setCart] = useState([]);
+  const [fetchingAPIData, setFetchingAPIData] = useState(false);
+  // For Filtering
   const [materials, setMaterials] = useState([]);
   const [filteredRobots, setFilteredRobots] = useState([]);
 
+  // For Paginated Robots
   const [currentRobots, setCurrentRobots] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [robotOffset, setRobotOffset] = useState(0);
@@ -75,6 +77,9 @@ export default function Home() {
     const checkRobotDataForItem = robotData.find(
       (robotItem) => robotItem.id === robot.id
     );
+    const checkCurrentRobotDataForItem = currentRobots.find(
+      (robotItem) => robotItem.id === robot.id
+    );
     const checkFilteredDataForItem = filteredRobots.find(
       (robotItem) => robotItem.id === robot.id
     );
@@ -119,8 +124,8 @@ export default function Home() {
       currentRobots.map((robotItem) =>
         robotItem.id === robot.id
           ? {
-              ...checkRobotDataForItem,
-              stock: checkRobotDataForItem.stock - 1,
+              ...checkCurrentRobotDataForItem,
+              stock: checkCurrentRobotDataForItem.stock - 1,
             }
           : robotItem
       )
@@ -146,6 +151,9 @@ export default function Home() {
       (robotCart) => robotCart.id === robot.id
     );
     const checkRobotDataForItem = robotData.find(
+      (robotItem) => robotItem.id === robot.id
+    );
+    const checkCurrentRobotDataForItem = currentRobots.find(
       (robotItem) => robotItem.id === robot.id
     );
     const checkFilteredDataForItem = filteredRobots.find(
@@ -181,8 +189,8 @@ export default function Home() {
       currentRobots.map((robotItem) =>
         robotItem.id === robot.id
           ? {
-              ...checkRobotDataForItem,
-              stock: checkRobotDataForItem.stock + 1,
+              ...checkCurrentRobotDataForItem,
+              stock: checkCurrentRobotDataForItem.stock + 1,
             }
           : robotItem
       )
@@ -263,7 +271,7 @@ export default function Home() {
         </div>
       </div>
       <div className="row" style={{margin: `20px`}}>
-        {currentRobots.length > 0 && (
+        {currentRobots.length > 0 && !filteredRobots.length > 0 && (
           <ReactPaginate
             nextLabel=">"
             onPageChange={handlePageClick}

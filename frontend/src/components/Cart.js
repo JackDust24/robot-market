@@ -3,6 +3,7 @@ import "../routes/Home.css";
 import { countNumberOfRobots, countTotalPrice } from "../utils/format";
 
 import CartItem from "./CartItem";
+import PropTypes from 'prop-types';
 import React from "react";
 
 export default function Cart(props) {
@@ -23,22 +24,29 @@ export default function Cart(props) {
         />
       ))}
       {cart.length !== 0 && (
-        <>
+        <React.Fragment>
         <hr />
           <div className="row" style={{paddingLeft: `5px`}}>
             <div className="col" style={{fontSize: `0.8rem`}}>Total Robots: </div>
             <div className="col text-right" style={{fontSize: `0.8rem`}}><strong>{numberOfRobots}</strong></div>
           </div>
           <div className="row" style={{paddingLeft: `5px`}}>
-            <div className="col" style={{fontSize: `1.0rem`}}>
+            <div className="col" style={{fontSize: `0.9rem`}}>
               <strong>{" "}Total Price:</strong>
             </div>
             <div className="col text-right">
               <strong>{totalPriceOfRobots}</strong>
             </div>
           </div>
-        </>
+        </React.Fragment>
       )}
     </div>
   );
+
 }
+
+Cart.propTypes = {
+  cart: PropTypes.array.isRequired,
+  handleAddToCart: PropTypes.func.isRequired,
+  handleRemoveFromCart: PropTypes.func.isRequired,
+};

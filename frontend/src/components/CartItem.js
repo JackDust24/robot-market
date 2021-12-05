@@ -6,6 +6,7 @@ import {
 } from "react-bootstrap";
 
 import NoImage from "../assets/images/noimage.png";
+import PropTypes from 'prop-types';
 import React from "react";
 import { formatPrice } from "./../utils/format";
 
@@ -122,6 +123,12 @@ const ImageStyles = {
         </Col>
       </div>
     );
+  };
+
+  CartItem.propTypes = {
+    robot: PropTypes.object.isRequired,
+    handleAddToCart: PropTypes.func.isRequired,
+    handleRemoveFromCart: PropTypes.func.isRequired,
   };
   
   export default CartItem;

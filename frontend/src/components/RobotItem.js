@@ -2,6 +2,7 @@ import { Button, Card, Col } from "react-bootstrap";
 import { formatDate, formatPrice } from "./../utils/format";
 
 import NoImage from "../assets/images/noimage.png";
+import PropTypes from 'prop-types';
 import React from "react";
 
 const ImageStyles = {
@@ -109,6 +110,11 @@ const RobotItem = (props) => {
       </Col>
     </div>
   );
+};
+
+RobotItem.propTypes = {
+  robot: PropTypes.object.isRequired,
+  handleAddToCart: PropTypes.func.isRequired,
 };
 
 export default RobotItem;
